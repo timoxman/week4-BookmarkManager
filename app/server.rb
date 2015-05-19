@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'data_mapper'
 
+
 class BookmarkManagerWeb < Sinatra::Base
 
   enable :sessions
@@ -17,6 +18,7 @@ class BookmarkManagerWeb < Sinatra::Base
   require './lib/link' # this needs to be done after datamapper is initialised
   require './lib/tag'
   require './lib/user'
+  # require_relative 'helpers.rb'
 
   # After declaring your models, you should finalise them
   DataMapper.finalize
@@ -57,9 +59,9 @@ class BookmarkManagerWeb < Sinatra::Base
   end
 
   post '/users' do
-
     user = User.create(email: params[:email],
-                password: params[:password])
+              password: params[:password],
+              password_confirmation: params[ :password_confirmation])
     session[:user_id] = user.id
     redirect to('/')
   end
@@ -71,6 +73,7 @@ class BookmarkManagerWeb < Sinatra::Base
     end
 
   end
+
 
   # start the server if ruby file executed directly
   run! if app_file == $0

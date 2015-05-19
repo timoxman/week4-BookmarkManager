@@ -8,7 +8,7 @@ ENV['RACK_ENV'] = 'test' # because we need to know what database to work with
 # The environment determines what database to use.
 
 #getting the server file.. this is in the route directory
-require './server'
+require './app/server'
 
 #clear up and empty the database after each test.
 require 'database_cleaner'
