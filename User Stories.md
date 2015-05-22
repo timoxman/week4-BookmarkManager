@@ -1,4 +1,4 @@
-User Stories
+sUser Stories
 
 As a time pressed computer user
 So that I can quickly find web sites I recently bookmarked

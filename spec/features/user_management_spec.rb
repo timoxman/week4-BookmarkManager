@@ -1,3 +1,8 @@
+require_relative 'helpers/session'
+
+include SessionHelpers
+
+
 feature 'User signs up' do
 
   # Strictly speaking, the tests that check the UI
@@ -21,7 +26,7 @@ feature 'User signs up' do
     expect { sign_up('a@a.com', 'pass', 'wrong') }.to change(User, :count).by(0)
   end
 
-  def sign_up(email = 'alice@example.com',
+  def sign_up(email = 'alice@example.com', ### -  moved to helpers
               password = 'oranges!',
               password_confirmation = 'oranges!')
     visit '/users/new'
@@ -30,5 +35,21 @@ feature 'User signs up' do
     fill_in :password_confirmation, with: password_confirmation
     click_button 'Sign up'
   end
+
+  scenario 'with a password that does not match' do
+    expect { sign_up('a@a.com', 'pass', 'wrong') }.to change(User, :count).by(0)
+    expect(current_path).to eq('/users')
+    expect(page).to have_content('Sorry, your passwords do not match')
+  end
+
+  scenario 'with an email that is already registered' do
+    expect { sign_up }.to change(User, :count).by(1)
+    expect { sign_up }.to change(User, :count).by(0)
+    expect(page).to have_content('This email is already taken')
+  end
+
+
+
+
 
 end
